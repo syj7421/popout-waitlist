@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popout Market — Buy and Sell with people near you</title>
+  <meta name="description" content="Popout Market: Safer, with less hassle and more local than Facebook Marketplace. Join the waitlist now.">
+  <link rel="icon" href="popout_logo.png" type="image/png">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: #111;
+      background: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      max-width: 1120px;
+      width: 100%;
+      padding: 3rem 2.5rem;
+    }
+
+    /* ---- Left column ---- */
+
+    .left {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .logo-row img {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .logo-row span {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .headline {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      max-width: 480px;
+    }
+
+    .subheadline {
+      font-size: 1.1rem;
+      color: #555;
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    /* ---- Form ---- */
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 420px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      color: #555;
+      padding-left: 2px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      color: #111;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .field input::placeholder {
+      color: #aaa;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #111;
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper::after {
+      content: "";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #666;
+      pointer-events: none;
+    }
+
+    .field select {
+      cursor: pointer;
+      padding-right: 2.2rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.85rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: #fff;
+      background: #111;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:hover {
+      background: #333;
+    }
+
+    .btn:active {
+      transform: scale(0.985);
+    }
+
+    .btn:disabled {
+      background: #888;
+      cursor: not-allowed;
+    }
+
+    .form-message {
+      font-size: 0.9rem;
+      min-height: 1.4em;
+    }
+
+    .form-message.success {
+      color: #16a34a;
+    }
+
+    .form-message.error {
+      color: #dc2626;
+    }
+
+    .footer-text {
+      font-size: 0.88rem;
+      color: #777;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 420px;
+    }
+
+    /* ---- Right column ---- */
+
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .right img {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* ---- Responsive ---- */
+
+    @media (max-width: 768px) {
+      body {
+        align-items: flex-start;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding: 2.5rem 1.5rem 3rem;
+      }
+
+      .headline {
+        font-size: 2.25rem;
+      }
+
+      .form-group,
+      .subheadline,
+      .footer-text {
+        max-width: 100%;
+      }
+
+      .right {
+        order: 2;
+      }
+
+      .right img {
+        max-width: 320px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 2rem 1.15rem 2.5rem;
+      }
+
+      .headline {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <section class="left">
+      <div class="logo-row">
+        <img src="popout_logo.png" alt="Popout logo">
+        <span>Popout Market</span>
+      </div>
+
+      <h1 class="headline">Buy and Sell with people near you</h1>
+
+      <p class="subheadline">Safer, with less hassle and more local than Facebook Marketplace</p>
+
+      <form class="form-group" id="waitlist-form" autocomplete="on">
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="jane@gmail.com" required>
+        </div>
+
+        <div class="field">
+          <label for="location">Location</label>
+          <div class="select-wrapper">
+            <select id="location" name="location" required>
+              <option value="Melbourne" selected>Melbourne</option>
+              <option value="Sydney">Sydney</option>
+              <option value="Brisbane">Brisbane</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn" id="submit-btn">Join Waitlist</button>
+        <p class="form-message" id="form-message"></p>
+      </form>
+
+      <p class="footer-text">
+        Launching first in Melbourne,<br>
+        join early for updates and first user gifts and benefits!
+      </p>
+    </section>
+
+    <section class="right">
+      <img src="edited_rotato.png" alt="Popout Market app preview">
+    </section>
+  </main>
+
+  <script>
+    /*
+     * ============================================================
+     *  GOOGLE APPS SCRIPT SETUP (do this once)
+     * ============================================================
+     *
+     *  1. Create a new Google Sheet.
+     *     - In Row 1, add headers: Email | Location | Timestamp
+     *
+     *  2. Go to Extensions > Apps Script.
+     *
+     *  3. Replace the default code with:
+     *
+     *     function doPost(e) {
+     *       var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+     *       var data = JSON.parse(e.postData.contents);
+     *       sheet.appendRow([data.email, data.location, new Date().toISOString()]);
+     *       return ContentService
+     *         .createTextOutput(JSON.stringify({ result: "success" }))
+     *         .setMimeType(ContentService.MimeType.JSON);
+     *     }
+     *
+     *  4. Click Deploy > New deployment.
+     *     - Type: Web app
+     *     - Execute as: Me
+     *     - Who has access: Anyone
+     *     - Click Deploy, authorize, and copy the Web App URL.
+     *
+     *  5. Paste that URL below, replacing the placeholder.
+     * ============================================================
+     */
+
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxwMRrfO33uvS9mGkJ48d44rSyZQxxcasp_zAgnG7w-de6rNs6WwEUaCe2tsHGX8il/exec";
+
+    const form = document.getElementById("waitlist-form");
+    const btn = document.getElementById("submit-btn");
+    const msg = document.getElementById("form-message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const location = document.getElementById("location").value;
+
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.textContent = "Joining...";
+      msg.textContent = "";
+      msg.className = "form-message";
+
+      if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+        msg.textContent = "Google Sheets URL not configured yet. See index.html comments for setup.";
+        msg.className = "form-message error";
+        btn.disabled = false;
+        btn.textContent = "Join Waitlist";
+        return;
+      }
+
+      try {
+        const res = await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          body: JSON.stringify({ email, location }),
+        });
+
+        if (!res.ok) throw new Error("Network error");
+
+        msg.textContent = "You're on the list! We'll be in touch soon.";
+        msg.className = "form-message success";
+        form.reset();
+        document.getElementById("location").value = "Melbourne";
+      } catch {
+        msg.textContent = "Something went wrong. Please try again.";
+        msg.className = "form-message error";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Join Waitlist";
+      }
+    });
+  </script>
+
+</body>
+</html>
